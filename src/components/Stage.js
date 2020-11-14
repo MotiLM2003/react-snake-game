@@ -205,11 +205,11 @@ const Stage = () => {
           })
         )}
       </div>
-      <div>
+      <div className='menu'>
+        <div className='score'> score: {score}</div>
         <button className='btn' onClick={startGame}>
           start game
         </button>
-        <div style={{ color: 'white' }}> score: {score}</div>
       </div>
     </div>
   );

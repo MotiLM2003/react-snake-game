@@ -7,15 +7,14 @@ import './general.scss';
 
 const App = () => {
   return (
-    <React.Fragment>
+    <div class='main-container'>
       <Header />
       <section className='container main-content'>
         <div className='stage-container'>
           <Stage />
         </div>
       </section>
-      <Footer />
-    </React.Fragment>
+    </div>
   );
 };
 

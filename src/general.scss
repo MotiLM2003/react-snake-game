@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Pixel';
+  src: url('font/Pixel-LCD-7.woff') format('woff');
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,12 +20,18 @@ body {
 
   align-items: stretch;
   justify-content: space-between;
-  background-color: #343a40
+  background: rgb(108,117,125);
+background: linear-gradient(180deg, rgba(108,117,125,1) 0%, rgba(52,58,64,1) 54%, rgba(33,37,41,1) 100%);
 
 }
-
+.main-container {
+  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 .container {
-  max-width: 120rem;
+  max-width: 70rem;
 
  
   margin: 0 auto;
@@ -28,7 +39,7 @@ body {
 
 .main-content {
  
-  height: 20rem;
+ 
   display: flex;
   justify-content: center;
 }
@@ -42,11 +53,6 @@ body {
 .header_logo {
   width: 80px;}
 
-.main-content {
-  flex-grow: 1;
-  min-height: 80vh;
-  
-}
 
 
 .stage-container {
@@ -64,18 +70,44 @@ body {
 
 .stage{
 
+  
  justify-content: center;
- align-items: center;
   display:flex;
   flex-basis: 100%;
   outline: none;
+  gap:2rem;
+}
+
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .btn {
-  background-color: transparent;
-  border: 1px solid #0d1b2a;
-  padding:2rem;
-  font-size:2.2rem
+  background-color: #212529;
+border: none;
+  padding:1rem;
+  font-size:1.8rem;
+  border-radius: .5rem;
+  cursor: pointer;
+  color:#dee2e6;
+  font-family: Pixel;
+  outline: none;
+  
+  
+}
+
+.score {
+  background-color: #212529;
+  color:#dee2e6;
+  padding:1rem;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+  font-size: 1.6rem;
+  font-family: Pixel;
 }
 
 
@@ -85,8 +117,8 @@ body {
   height: 520px;
   background-color:  #2b9348;
  
-  border:1px solid #495057;
-  border-radius: 2rem;
+  border:1px solid #a1a5a8;
+ 
 }
 
 
@@ -119,7 +151,7 @@ body {
 
 
 .footer {
-  background-color: #fff;
+  background-color: #343a40;
   height: 10vh;
   height: 10vh;
   
