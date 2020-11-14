@@ -15,7 +15,7 @@ body {
 
   align-items: stretch;
   justify-content: space-between;
-  background-color: #0d1b2a
+  background-color: #343a40
 
 }
 
@@ -52,27 +52,41 @@ body {
 .stage-container {
   width:100%;
   display: flex;
+  
+  outline: none;
+ 
 
 }
 
 .controllers {
-  background-color: blue;;
-  
   flex-basis:15%;
 }
 
 .stage{
-  background-color: lighten(#0d1b2a,1);
-  flex:1
- 
+
+ justify-content: center;
+ align-items: center;
+  display:flex;
+  flex-basis: 100%;
+  outline: none;
 }
+
+.btn {
+  background-color: transparent;
+  border: 1px solid #0d1b2a;
+  padding:2rem;
+  font-size:2.2rem
+}
+
+
 .stage-grid {
   display: grid;
-  width: 720px;
-  height: 720px;
-  background-color: green;
-  height: 100%;
-  border:1px solid black;
+  width:  520px;
+  height: 520px;
+  background-color:  #2b9348;
+ 
+  border:1px solid #495057;
+  border-radius: 2rem;
 }
 
 
@@ -85,20 +99,24 @@ body {
 }
 .grid-item.alive {
   background-color: #fff;
-  
+ 
+}
+
+
+.grid-item.snack {
+  background-color:#cbff8c;
+ border-radius: 50%;
+ transition: all .2s linear;
+ padding:.2rem
 }
 
 
 .grid-item.alive:first-child {
-  border-radius: 50%;
+  border-radius: 13px;
   background-color: hotpink;
   
 }
-.alive:first-child {
-  border-radius: 50%;
-  background-color: hotpink;
-  
-}
+
 
 .footer {
   background-color: #fff;

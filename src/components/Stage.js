@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 // hookjs
 import { useSnake } from '../hooks/useSnake';
 import { useInterval } from './useInterval';
 const Stage = () => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setRandomCandy();
+  }, []);
   const setIntitalGrid = () => {
     const rows = [];
 
@@ -14,8 +16,12 @@ const Stage = () => {
     return rows;
   };
   const [snake, setSnake, direction, setDirection] = useSnake();
-  const [gridSize, setGridSize] = useState(50);
+  const [gridSize, setGridSize] = useState(30);
   const [grid, setGrid] = useState(setIntitalGrid);
+  const [isGameOn, setIsGameOn] = useState(false);
+  const [snakcs, setSnacks] = useState([]);
+  const [score, setScore] = useState(0);
+  const gameBoardRef = useRef();
   useEffect(() => {}, [grid]);
 
   const isSnake = (row, col) => {
@@ -30,6 +36,24 @@ const Stage = () => {
     return cell;
   };
 
+  const setRandomCandy = () => {
+    const row = Math.floor(Math.random() * gridSize);
+    const col = Math.floor(Math.random() * gridSize);
+    console.log(grid[row][col]);
+    console.log(col, row);
+    setSnacks((prev) => {
+      return [...prev, { row, col }];
+    });
+  };
+
+  const increaseSnakeSize = () => {
+    const lastSnake = snake[snake.length - 1];
+    console.log('size', lastSnake);
+    setSnake((prev) => {
+      return [...prev, { row: lastSnake.row, col: lastSnake.col }];
+    });
+  };
+
   const updateGrid = () => {
     const lastPoints = { col: 0, row: 0 };
     setSnake((prev) => {
@@ -39,13 +63,43 @@ const Stage = () => {
         let newObj = null;
         if (index === 0) {
           if (direction === 'right') {
-            newObj = { ...item, col: item.col + 1 };
+            const value = item.col + 1;
+
+            if (value > gridSize) {
+              setIsGameOn(false);
+            }
+            newObj = { ...item, col: value };
           } else if (direction === 'left') {
-            newObj = { ...item, col: item.col - 1 };
+            const value = item.col - 1;
+
+            if (value < 0) {
+              setIsGameOn(false);
+            }
+            newObj = { ...item, col: value };
           } else if (direction === 'down') {
-            newObj = { ...item, row: item.row + 1 };
+            const value = item.row + 1;
+            if (value > gridSize) {
+              setIsGameOn(false);
+            }
+            newObj = { ...item, row: value };
           } else if (direction === 'up') {
-            newObj = { ...item, row: item.row - 1 };
+            const value = item.row - 1;
+            if (value < 0) {
+              setIsGameOn(false);
+            }
+            newObj = { ...item, row: value };
+          }
+          for (let i = 0; i < snakcs.length; i++) {
+            if (newObj.row == snakcs[i].row && newObj.col == snakcs[i].col) {
+              console.log('hit');
+              setScore((prev) => prev + 10);
+              setSnacks((prev) => {
+                console.log(prev.slice(i, 1));
+                setRandomCandy();
+                increaseSnakeSize();
+                return [];
+              });
+            }
           }
         } else {
           // console.log('col', lastPoints.col, ' row', lastPoints.row);
@@ -66,6 +120,9 @@ const Stage = () => {
   };
 
   useInterval(() => {
+    if (!isGameOn) {
+      return;
+    }
     updateGrid();
   }, 100);
 
@@ -103,14 +160,27 @@ const Stage = () => {
 
     console.log(keyCode);
   };
+
+  const startGame = () => {
+    setGrid(setIntitalGrid);
+    setSnake([
+      { row: 2, col: 2 },
+      { row: 2, col: 1 },
+      { row: 3, col: 1 },
+    ]);
+    setScore(0);
+    setIsGameOn(true);
+    setDirection('right');
+    gameBoardRef.current.style.foucs = true;
+  };
   return (
     <div
+      ref={gameBoardRef}
       className='stage'
       id='main-area'
       tabIndex='0'
       onKeyDown={(e) => move(e)}
     >
-      <button onClick={updateGrid}>Hello</button>
       <div
         className='stage-grid'
         style={{ gridTemplateColumns: `repeat(${gridSize}, 1fr` }}
@@ -124,10 +194,22 @@ const Stage = () => {
               cell = <div key={col} className='grid-item'></div>;
             }
 
+            snakcs.map((item) => {
+              if (item.col === col && item.row === row) {
+                cell = <div key={col} className='grid-item snack'></div>;
+              }
+            });
+
             value.status = { row };
             return cell;
           })
         )}
+      </div>
+      <div>
+        <button className='btn' onClick={startGame}>
+          start game
+        </button>
+        <div style={{ color: 'white' }}> score: {score}</div>
       </div>
     </div>
   );
